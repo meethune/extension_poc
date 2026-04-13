@@ -1,0 +1,21 @@
+[project]
+name = "extension-poc"
+version = "0.1.0"
+description = "Proof of concept X4: Foundations extension mod"
+requires-python = ">=3.13"
+license = "MIT"
+
+[project.urls]
+Repository = "https://github.com/meethune/extension_poc"
+
+[dependency-groups]
+dev = [
+    "x4cat",
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.uv.sources]
+x4cat = { git = "https://github.com/meethune/x4cat.git" }

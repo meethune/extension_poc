@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Extension PoC — Mission Director script placeholder.
+  This is a skeleton MD script that logs a message on game start.
+-->
+<mdscript name="ExtensionPoC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+  <cues>
+    <cue name="Start" instantiate="false" namespace="this">
+      <conditions>
+        <check_any>
+          <event_game_started />
+          <event_game_loaded />
+        </check_any>
+      </conditions>
+      <actions>
+        <debug_text text="'Extension PoC loaded successfully'" filter="general" />
+      </actions>
+    </cue>
+  </cues>
+</mdscript>

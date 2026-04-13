@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content id="extension_poc" version="100" name="Extension PoC" description="Proof of concept X4 extension mod" author="Meethune Bhowmick" date="2026-04-13" enabled="1" save="0">
+  <dependency version="900" />
+</content>
