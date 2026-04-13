@@ -1,6 +1,9 @@
 # Build output
 dist/
 
+# Extracted game schemas (copyrighted, not committed)
+schemas/
+
 # Editor files
 *.swp
 *~

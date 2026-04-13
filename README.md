@@ -13,6 +13,7 @@ src/                     — Mod files (packed into catalog)
   aiscripts/             — AI behavior scripts
   libraries/             — Library XML overrides
 dist/                    — Build output (do not commit)
+schemas/                 — XSD schemas extracted from game (do not commit)
 tests/                   — Build validation tests
 ```
 
@@ -27,12 +28,25 @@ uv sync
 ## Build
 
 ```bash
-make all         # validate, build, test
-make build       # pack src/ into dist/ext_01.cat + copy content.xml
-make validate    # check XML well-formedness and content.xml structure
-make test        # run full test suite (includes build verification)
-make clean       # remove dist/
+make all              # validate, build, test
+make build            # pack src/ into dist/ext_01.cat + copy content.xml
+make validate         # XML well-formedness + structural checks
+make test             # full test suite (includes build verification)
+make clean            # remove dist/
 ```
+
+## Schema validation
+
+Optionally extract XSD schemas from your X4 install for full schema validation
+of MD and AI scripts:
+
+```bash
+make schemas X4_GAME_DIR="/path/to/X4 Foundations"
+make schema-validate
+```
+
+Note: full XSD validation is slow (~70s) due to the size of Egosoft's schemas.
+The default `make all` uses fast structural checks instead.
 
 ## Installing
 
