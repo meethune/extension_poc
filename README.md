@@ -2,7 +2,7 @@
 
 Proof of concept [X4: Foundations](https://wiki.egosoft.com/X4%20Foundations%20Wiki/Modding%20Support/) extension mod template.
 
-Uses [x4cat](https://github.com/meethune/x4cat) to pack mod files into `.cat/.dat` catalogs.
+Uses [x4cat](https://github.com/meethune/x4cat) to pack mod files into `.cat/.dat` catalogs and validate diff patches.
 
 ## Structure
 
@@ -11,7 +11,7 @@ content.xml              — Extension manifest (loose file, required by X4)
 src/                     — Mod files (packed into catalog)
   md/                    — Mission Director scripts
   aiscripts/             — AI behavior scripts
-  libraries/             — Library XML overrides
+  libraries/             — Library XML diff patches
 dist/                    — Build output (do not commit)
 schemas/                 — XSD schemas extracted from game (do not commit)
 tests/                   — Build validation tests
@@ -23,6 +23,32 @@ Requires Python 3.13+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 uv sync
+```
+
+## Development workflow
+
+The recommended workflow for modifying base game files uses XML diff patches
+rather than full file replacement. This ensures compatibility with other mods
+and game updates.
+
+```bash
+# 1. Extract the base game file you want to modify
+x4cat extract "/path/to/X4 Foundations" -o ./base -g 'libraries/wares.xml'
+
+# 2. Copy and edit
+cp -r ./base ./modified
+# ... edit files in ./modified ...
+
+# 3. Generate a diff patch
+x4cat xmldiff --base ./base/libraries/wares.xml \
+              --mod  ./modified/libraries/wares.xml \
+              -o src/libraries/wares.xml
+
+# 4. Validate your patches against the game
+make lint X4_GAME_DIR="/path/to/X4 Foundations"
+
+# 5. Build and test
+make all
 ```
 
 ## Build
