@@ -35,6 +35,18 @@ make test             # full test suite (includes build verification)
 make clean            # remove dist/
 ```
 
+## Diff patch linting
+
+Validate that all XML diff patches in `src/` have XPath selectors that match
+the base game files they target:
+
+```bash
+make lint X4_GAME_DIR="/path/to/X4 Foundations"
+```
+
+Reports mismatches with file path, line number, and the failing XPath.
+Skipped gracefully when no diff patches exist in `src/`.
+
 ## Schema validation
 
 Optionally extract XSD schemas from your X4 install for full schema validation
