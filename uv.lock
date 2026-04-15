@@ -149,4 +149,4 @@ wheels = [
 [[package]]
 name = "x4cat"
 version = "0.1.0"
-source = { git = "https://github.com/meethune/x4cat.git#b0e17e142f05ef56aa4859b5d253d317a307b9b7" }
+source = { git = "https://github.com/meethune/x4cat.git#0d0b5640d19c4b2738b11593d274086fceca6fa0" }
