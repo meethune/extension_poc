@@ -5,9 +5,6 @@ dist/
 base/
 modified/
 
-# Extracted game schemas (copyrighted, not committed)
-schemas/
-
 # Editor files
 *.swp
 *~
