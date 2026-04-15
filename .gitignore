@@ -1,6 +1,10 @@
 # Build output
 dist/
 
+# Intermediate files from xmldiff workflow
+base/
+modified/
+
 # Extracted game schemas (copyrighted, not committed)
 schemas/
 
