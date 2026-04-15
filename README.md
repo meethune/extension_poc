@@ -2,7 +2,7 @@
 
 Proof of concept [X4: Foundations](https://wiki.egosoft.com/X4%20Foundations%20Wiki/Modding%20Support/) extension mod template.
 
-Uses [x4cat](https://github.com/meethune/x4cat) to pack mod files into `.cat/.dat` catalogs, generate and validate diff patches, and manage translations. See the [x4cat documentation](https://meethune.github.io/x4cat/) for full reference.
+Uses [x4cat](https://github.com/meethune/x4cat) for catalog packing, diff patch validation, translation checking, schema validation, and content scaffolding. See the [x4cat documentation](https://meethune.github.io/x4cat/) for full reference.
 
 ## Structure
 
@@ -15,7 +15,6 @@ src/                     — Mod files (packed into catalog)
 dist/                    — Build output (do not commit)
 base/                    — Extracted base files for xmldiff workflow (do not commit)
 modified/                — Modified files for xmldiff workflow (do not commit)
-schemas/                 — XSD schemas extracted from game (do not commit)
 tests/                   — Build validation tests
 ```
 
@@ -49,8 +48,9 @@ x4cat xmldiff --base ./base/libraries/wares.xml \
 # 4. Validate your patches against the game
 make lint X4_GAME_DIR="/path/to/X4 Foundations"
 
-# 5. Validate translations
+# 5. Validate translations and schema
 make check-translations
+make schema-validate
 
 # 6. Build and test
 make all
@@ -74,6 +74,7 @@ make all                # validate, build, test
 make build              # pack src/ into dist/ext_01.cat + copy content.xml
 make validate           # XML well-formedness + structural checks
 make check-translations # validate text references against t/*.xml
+make schema-validate    # validate MD/AI scripts against indexed schema rules
 make test               # full test suite (includes build verification)
 make clean              # remove dist/
 ```
@@ -87,6 +88,18 @@ the base game files they target:
 make lint X4_GAME_DIR="/path/to/X4 Foundations"
 ```
 
+## Schema validation
+
+Validate MD and AI scripts against indexed schema rules (requires a game index):
+
+```bash
+x4cat index "/path/to/X4 Foundations"
+make schema-validate
+```
+
+This uses x4cat's SQLite-backed schema validator which runs in milliseconds,
+replacing the previous lxml-based XSD validation that took ~70 seconds.
+
 ## Conflict checking
 
 Check your mod against another mod for overlapping diff patches:
@@ -94,19 +107,6 @@ Check your mod against another mod for overlapping diff patches:
 ```bash
 x4cat check-conflicts src/ /path/to/other_mod/src/
 ```
-
-## Schema validation
-
-Optionally extract XSD schemas from your X4 install for full schema validation
-of MD and AI scripts:
-
-```bash
-make schemas X4_GAME_DIR="/path/to/X4 Foundations"
-make schema-validate
-```
-
-Note: full XSD validation is slow (~70s) due to the size of Egosoft's schemas.
-The default `make all` uses fast structural checks instead.
 
 ## Installing
 

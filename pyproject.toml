@@ -12,7 +12,6 @@ Repository = "https://github.com/meethune/extension_poc"
 dev = [
     "x4cat",
     "pytest>=8.0",
-    "lxml>=6.0.4",
 ]
 
 [tool.pytest.ini_options]
