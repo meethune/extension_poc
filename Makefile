@@ -1,4 +1,4 @@
-.PHONY: build clean validate test all schemas schema-validate lint
+.PHONY: build clean validate test all schemas schema-validate lint check-translations
 
 DIST := dist
 SRC := src
@@ -21,14 +21,17 @@ endif
 	uv run x4cat extract "$(X4_GAME_DIR)" -o $(SCHEMAS) -g '*.xsd'
 	@echo "Schemas extracted to $(SCHEMAS)/"
 
+schema-validate:
+	uv run pytest tests/test_mod.py::TestSchema -q
+
 lint:
 ifndef X4_GAME_DIR
 	$(error X4_GAME_DIR not set — e.g. make lint X4_GAME_DIR="/path/to/X4 Foundations")
 endif
 	uv run x4cat validate-diff "$(X4_GAME_DIR)" $(SRC)
 
-schema-validate:
-	uv run pytest tests/test_mod.py::TestSchema -q
+check-translations:
+	uv run x4cat validate-translations $(SRC)
 
 validate:
 	uv run pytest tests/test_mod.py::TestValidate -q

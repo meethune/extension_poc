@@ -2,7 +2,7 @@
 
 Proof of concept [X4: Foundations](https://wiki.egosoft.com/X4%20Foundations%20Wiki/Modding%20Support/) extension mod template.
 
-Uses [x4cat](https://github.com/meethune/x4cat) to pack mod files into `.cat/.dat` catalogs and validate diff patches.
+Uses [x4cat](https://github.com/meethune/x4cat) to pack mod files into `.cat/.dat` catalogs, generate and validate diff patches, and manage translations. See the [x4cat documentation](https://meethune.github.io/x4cat/) for full reference.
 
 ## Structure
 
@@ -13,6 +13,8 @@ src/                     — Mod files (packed into catalog)
   aiscripts/             — AI behavior scripts
   libraries/             — Library XML diff patches
 dist/                    — Build output (do not commit)
+base/                    — Extracted base files for xmldiff workflow (do not commit)
+modified/                — Modified files for xmldiff workflow (do not commit)
 schemas/                 — XSD schemas extracted from game (do not commit)
 tests/                   — Build validation tests
 ```
@@ -47,18 +49,33 @@ x4cat xmldiff --base ./base/libraries/wares.xml \
 # 4. Validate your patches against the game
 make lint X4_GAME_DIR="/path/to/X4 Foundations"
 
-# 5. Build and test
+# 5. Validate translations
+make check-translations
+
+# 6. Build and test
 make all
+```
+
+Or use scaffolding to generate boilerplate:
+
+```bash
+# Scaffold a new ware
+x4cat scaffold ware --id mymod_fuel --name "Super Fuel" --price-avg 500 -o src/
+
+# Scaffold equipment by cloning an existing asset
+x4cat scaffold equipment --id mymod_engine_macro --name "Fast Engine" \
+  --clone-from engine_arg_s_allround_01_mk1_macro -o src/
 ```
 
 ## Build
 
 ```bash
-make all              # validate, build, test
-make build            # pack src/ into dist/ext_01.cat + copy content.xml
-make validate         # XML well-formedness + structural checks
-make test             # full test suite (includes build verification)
-make clean            # remove dist/
+make all                # validate, build, test
+make build              # pack src/ into dist/ext_01.cat + copy content.xml
+make validate           # XML well-formedness + structural checks
+make check-translations # validate text references against t/*.xml
+make test               # full test suite (includes build verification)
+make clean              # remove dist/
 ```
 
 ## Diff patch linting
@@ -70,8 +87,13 @@ the base game files they target:
 make lint X4_GAME_DIR="/path/to/X4 Foundations"
 ```
 
-Reports mismatches with file path, line number, and the failing XPath.
-Skipped gracefully when no diff patches exist in `src/`.
+## Conflict checking
+
+Check your mod against another mod for overlapping diff patches:
+
+```bash
+x4cat check-conflicts src/ /path/to/other_mod/src/
+```
 
 ## Schema validation
 
