@@ -114,12 +114,12 @@ class TestBuild:
 
     def test_catalog_payload_matches_src(self) -> None:
         from x4_catalog import build_vfs
-        from x4_catalog._core import _read_payload
+        from x4_catalog import read_payload
 
         vfs = build_vfs(DIST_DIR, prefix="ext_")
         for vpath, entry in vfs.items():
             src_data = (SRC_DIR / vpath).read_bytes()
-            packed_data = _read_payload(entry)
+            packed_data = read_payload(entry)
             assert packed_data == src_data, f"content mismatch for {vpath}"
 
     def test_catalog_excludes_content_xml(self) -> None:

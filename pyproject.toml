@@ -10,7 +10,7 @@ Repository = "https://github.com/meethune/extension_poc"
 
 [dependency-groups]
 dev = [
-    "x4cat",
+    "x4cat>=1.2.4",
     "pytest>=8.0",
 ]
 
@@ -18,4 +18,4 @@ dev = [
 testpaths = ["tests"]
 
 [tool.uv.sources]
-x4cat = { git = "https://github.com/meethune/x4cat.git" }
+x4cat = { git = "https://github.com/meethune/x4cat.git", branch = "main" }
