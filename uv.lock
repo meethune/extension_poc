@@ -27,7 +27,7 @@ dev = [
 [package.metadata.requires-dev]
 dev = [
     { name = "pytest", specifier = ">=8.0" },
-    { name = "x4cat", git = "https://github.com/meethune/x4cat.git" },
+    { name = "x4cat", git = "https://github.com/meethune/x4cat.git?branch=main" },
 ]
 
 [[package]]
@@ -84,5 +84,5 @@ wheels = [
 
 [[package]]
 name = "x4cat"
-version = "0.1.0"
-source = { git = "https://github.com/meethune/x4cat.git#104addd19a93bc5dfd7d500e214c81f5f60fa503" }
+version = "1.2.4"
+source = { git = "https://github.com/meethune/x4cat.git?branch=main#16fc97dcbf569aeebf729b3e4e6b1089b002efa7" }
